@@ -122,7 +122,7 @@ func _get_script_source_code(first_line : String):
 
 func _table_filter():
 	var new_script := GDScript.new()
-	new_script.source_code = _get_script_source_code("static func can_show(res, index):\n")
+	new_script.source_code = _get_script_source_code("static func can_show(res : Resource, index : int) -> bool:\n")
 	new_script.reload()
 
 	var editor_view := get_node(editor_view_path)
@@ -132,7 +132,7 @@ func _table_filter():
 
 func _table_process():
 	var new_script := GDScript.new()
-	new_script.source_code = _get_script_source_code("static func get_result(value, res, all_res, row_index):\n")
+	new_script.source_code = _get_script_source_code("static func get_result(value : Variant, res : Resource, all_res : Array[Resource], row_index : int) -> Variant:\n")
 	new_script.reload()
 
 	var editor_view := get_node(editor_view_path)
