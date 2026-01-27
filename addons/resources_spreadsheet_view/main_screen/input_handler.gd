@@ -137,10 +137,29 @@ func _move_selection_on_grid(move_h : int, move_v : int):
 	var num_rows := editor_view.rows.size()
 	var new_child_pos := Vector2i(0, 0)
 	for i in selected_cells.size():
-		new_child_pos = Vector2i(
-			clamp(selected_cells[i].x + move_h, 0, num_columns - 1),
-			clamp(selected_cells[i].y + move_v, 0, num_rows - 1),
-		)
+		new_child_pos = selected_cells[i]
+		for move_count in 1000:
+			if move_v != 0 and (new_child_pos.y + move_v >= num_rows or new_child_pos.y + move_v < 0):
+				break
+
+			new_child_pos.x += move_h
+			new_child_pos.y += move_v
+			if new_child_pos.x < 0:
+				new_child_pos.x = num_columns - 1
+				if new_child_pos.y > 0:
+					new_child_pos.y -= 1
+
+			if new_child_pos.x >= num_columns:
+				new_child_pos.x = 0
+				if new_child_pos.y < num_rows - 1:
+					new_child_pos.y += 1
+
+			if selection.get_cell_node_from_position(new_child_pos) == null:
+				break
+
+			if selection.get_cell_node_from_position(new_child_pos).is_visible_in_tree():
+				break
+
 		selected_cells[i] = new_child_pos
 
 	editor_view.grab_focus()
