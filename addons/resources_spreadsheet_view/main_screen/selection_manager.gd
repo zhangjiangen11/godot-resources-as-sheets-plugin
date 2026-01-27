@@ -254,7 +254,8 @@ func _set_visible_selected(state : bool):
 
 
 func _add_cell_to_selection(cell : Vector2i):
-	edited_cells.append(cell)
+	if !edited_cells.has(cell):
+		edited_cells.append(cell)
 
 	var column_editor := column_editors[get_cell_column(cell)]
 	var cell_node := get_cell_node_from_position(cell)
